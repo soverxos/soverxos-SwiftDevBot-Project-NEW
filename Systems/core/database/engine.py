@@ -9,9 +9,39 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from contextlib import asynccontextmanager
 import os
+import warnings
 from typing import AsyncGenerator
 
 from Systems.core.config.settings import DATABASE_URL, ASYNC_DATABASE_URL, DB_ENGINE
+
+# Подавляем исключения aiomysql о закрытии event loop
+import sys
+_original_stderr = sys.stderr
+
+# Monkey patch для aiomysql Connection.__del__ чтобы не показывать исключения
+def _patch_aiomysql():
+    try:
+        import aiomysql
+        original_del = aiomysql.Connection.__del__
+
+        def patched_del(self):
+            try:
+                return original_del(self)
+            except RuntimeError as e:
+                if "Event loop is closed" in str(e):
+                    # Игнорируем это исключение
+                    pass
+                else:
+                    raise
+
+        aiomysql.Connection.__del__ = patched_del
+        if not hasattr(sys, '_aiomysql_patched'):
+            sys._aiomysql_patched = True
+            print("✅ Aiomysql cleanup патч применен", file=_original_stderr)
+    except ImportError:
+        pass
+
+_patch_aiomysql()
 
 
 class Base(DeclarativeBase):

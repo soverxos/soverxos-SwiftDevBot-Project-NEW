@@ -164,10 +164,18 @@ if not BOT_TOKEN and SDB_ENV != "dev":
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 WEBHOOK_PATH = os.getenv("WEBHOOK_PATH", "/webhook")
 
+# Настройки регистрации пользователей
+REQUIRE_REGISTRATION = os.getenv("REQUIRE_REGISTRATION", "true").lower() == "true"
+START_MESSAGE_NEW_USER = os.getenv("START_MESSAGE_NEW_USER",
+    "🎉 Добро пожаловать в SwiftDevBot!\n\nВы успешно зарегистрированы.\n\nДоступные команды:\n/admin - админ-панель\n/ping - проверка бота\n/help - справка")
+START_MESSAGE_EXISTING_USER = os.getenv("START_MESSAGE_EXISTING_USER",
+    "✅ Вы уже зарегистрированы!\n\nДоступные команды:\n/admin - админ-панель\n/ping - проверка бота\n/help - справка")
+
 # Экспорт всех настроек для использования
 __all__ = [
     "SDB_ENV", "DB_ENGINE", "DATABASE_URL", "ASYNC_DATABASE_URL", "EVENTBUS_MODE", "REDIS_URL",
     "EVENTBUS_MEMORY_MAX", "SDB_SUPERADMIN_ID", "SDB_ADMIN_IDS",
     "LOG_LEVEL", "LOG_FORMAT", "SECRET_KEY", "MAX_WORKERS", "REQUEST_TIMEOUT",
-    "BOT_TOKEN", "WEBHOOK_URL", "WEBHOOK_PATH", "POSTGRES_DSN", "MYSQL_DSN", "SQLITE_PATH"
+    "BOT_TOKEN", "WEBHOOK_URL", "WEBHOOK_PATH", "POSTGRES_DSN", "MYSQL_DSN", "SQLITE_PATH",
+    "REQUIRE_REGISTRATION", "START_MESSAGE_NEW_USER", "START_MESSAGE_EXISTING_USER"
 ]
