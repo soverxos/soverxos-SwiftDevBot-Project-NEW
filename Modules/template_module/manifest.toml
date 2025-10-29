@@ -1,0 +1,19 @@
+id = "template_module"
+name = "Template Module"
+version = "1.0.0"
+description = "Starter module with web integration"
+author = "SoverX"
+license = "MIT"
+sdk = ">=1.0,<2.0"
+
+permissions = ["events:subscribe:command", "bot:send_message"]
+
+entrypoint = "module:TemplateModule"
+
+[web]
+enabled = true
+mount = "/modules/template"
+profile_tab = true
+template = "web/templates/profile_tab.html"
+routes = "web/routes.py"
+assets = ["web/static/style.css", "web/static/script.js"]

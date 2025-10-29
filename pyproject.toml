@@ -1,0 +1,8 @@
+[project]
+name = "swiftdevbot"
+version = "0.1.0"
+description = "SwiftDevBot Microservices Platform"
+requires-python = ">=3.12"
+
+[tool.black]
+line-length = 100

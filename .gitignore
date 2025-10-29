@@ -1,0 +1,185 @@
+# ===========================================
+# 🧠 SwiftDevBot — .gitignore (Full Edition)
+# ===========================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.so
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- OS & Editor Files ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.bak
+*.tmp
+*.log
+*.orig
+*.old
+
+# --- Local Environment Files ---
+.env
+.env.local
+.env.dev
+.env.prod
+.env.backup
+.env.test
+.env.*
+
+# --- Databases ---
+*.sqlite
+*.db
+*.sqlite3-journal
+
+# --- Data Directory (ignore all content, keep structure) ---
+Data/database/*
+!Data/database/.gitkeep
+Data/logs/*
+!Data/logs/.gitkeep
+Data/pids/*
+!Data/pids/.gitkeep
+Data/uploads/*
+!Data/uploads/.gitkeep
+
+# --- Backups Directory ---
+Backups/*
+!Backups/.gitkeep
+
+# --- Archive Files ---
+*.pid
+*.log
+*.bak
+*.tar
+*.gz
+*.zip
+*.7z
+
+# --- Build Artifacts ---
+build/
+dist/
+*.egg-info/
+.eggs/
+*.spec
+*.whl
+MANIFEST
+pip-wheel-metadata/
+.wheelhouse/
+
+# --- Frontend Builds (React/Vue) ---
+Systems/SysModules/webpanel/frontend/dist/
+Systems/SysModules/admin_panel/frontend/dist/
+Modules/**/web/dist/
+Modules/**/web/static/
+Modules/**/web/node_modules/
+
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Docker ---
+docker-data/
+docker-compose.override.yml
+*.pid
+*.sock
+*.log
+
+# --- Tests & Coverage ---
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.mypy_cache/
+.cache/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.tox
+
+# --- JetBrains / PyCharm ---
+.idea/
+*.iml
+out/
+
+# --- Temporary / Sandbox files ---
+tmp/
+temp/
+sandbox/
+cache/
+*.tmp
+
+# --- Wheel & Build metadata ---
+__build__/
+__dist__/
+__install__/
+*.egg-info
+*.egg
+
+# --- SwiftDevBot Specific ---
+Systems/core/registry/cache/
+Systems/core/eventbus/tmp/
+Modules/*/__pycache__/
+Modules/*/cache/
+Modules/*/temp/
+
+# --- Alembic Migrations (optional) ---
+alembic/versions/*.pyc
+alembic/versions/*.py~
+alembic/versions/__pycache__/
+
+# --- Deployment / Server ---
+deploy/*.key
+deploy/*.pem
+deploy/*.crt
+deploy/*.csr
+deploy/*.enc
+deploy/*.tar.gz
+deploy/*.zip
+deploy/*.bak
+deploy/secrets/
+deploy/backup/
+deploy/tmp/
+deploy/logs/
+deploy/systemd/
+deploy/nginx/
+deploy/env/
+deploy/*.service
+deploy/*.conf
+deploy/.ssh/
+deploy/.env*
+
+# --- VPS system-level logs / states ---
+/var/log/swiftdevbot/
+/etc/systemd/system/swiftdevbot.service
+/var/lib/swiftdevbot/
+/opt/swiftdevbot/tmp/
+/opt/swiftdevbot/logs/
+/opt/swiftdevbot/backups/
+/opt/swiftdevbot/env/
+
+# --- Local dev helper files ---
+run_dev.sh.bak
+scripts/test_*
+scripts/dev_*
+test_output/
+__dev_temp__/
+
+# --- Other misc ---
+*.retry
+*.dump
+*.core
+*.pid.lock
