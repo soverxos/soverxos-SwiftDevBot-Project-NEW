@@ -35,7 +35,9 @@ Thumbs.db
 .env.prod
 .env.backup
 .env.test
+# Игнорировать все .env.* КРОМЕ .env.example
 .env.*
+!.env.example
 
 # --- Databases ---
 *.sqlite
