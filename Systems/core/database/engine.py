@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 import os
 from typing import AsyncGenerator
 
-from Systems.core.config.settings import DATABASE_URL, DB_ENGINE
+from Systems.core.config.settings import DATABASE_URL, ASYNC_DATABASE_URL, DB_ENGINE
 
 
 class Base(DeclarativeBase):
@@ -27,13 +27,7 @@ sync_engine = create_engine(
 )
 
 # Асинхронный engine (для production использования)
-if DB_ENGINE == "sqlite":
-    # SQLite требует специального URL для async
-    async_database_url = DATABASE_URL.replace("sqlite:///", "sqlite+aiosqlite:///")
-else:
-    # PostgreSQL/MySQL
-    async_database_url = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
-    async_database_url = async_database_url.replace("mysql://", "mysql+aiomysql://")
+async_database_url = ASYNC_DATABASE_URL
 
 async_engine = create_async_engine(
     async_database_url,

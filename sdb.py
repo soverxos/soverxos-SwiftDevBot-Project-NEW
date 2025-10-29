@@ -9,12 +9,12 @@ PROGRESS_PATH = ROOT / "Data" / "roadmap_progress.json"
 
 def show_usage():
     print("Usage:")
-    print("  python sdb.py up               # Запуск (dev info)")
-    print("  python sdb.py down             # Остановка (skeleton info)")
-    print("  python sdb.py module create X  # Создать модуль X")
-    print("  python sdb.py progress         # Показать прогресс Roadmap")
-    print("  python sdb.py logs [service]   # Показать логи (опционально конкретного сервиса)")
-    print("  python sdb.py clean [mode]     # Очистить проект (cache|logs|data|all)")
+    print("  python3 sdb.py up               # Запуск (dev info)")
+    print("  python3 sdb.py down             # Остановка (skeleton info)")
+    print("  python3 sdb.py module create X  # Создать модуль X")
+    print("  python3 sdb.py progress         # Показать прогресс Roadmap")
+    print("  python3 sdb.py logs [service]   # Показать логи (опционально конкретного сервиса)")
+    print("  python3 sdb.py clean [mode]     # Очистить проект (cache|logs|data|all)")
     print()
 
 def create_module(name: str):

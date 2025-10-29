@@ -1,34 +1,64 @@
-from logging.config import fileConfig
-import sys
-from pathlib import Path
+"""
+Alembic Environment Configuration for SwiftDevBot
+--------------------------------------------------
+Миграции базы данных для SwiftDevBot
+"""
 
-from sqlalchemy import engine_from_config
+import asyncio
+import sys
+from logging.config import fileConfig
+
 from sqlalchemy import pool
+from sqlalchemy.engine import Connection
+from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-# Добавляем корневую директорию проекта в sys.path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+# Загружаем переменные окружения
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+# Добавляем корневую директорию в путь
+sys.path.insert(0, '..')
 
 # Импортируем модели и конфигурацию
-from dotenv import load_dotenv
-load_dotenv()
+try:
+    from Systems.core.database.engine import Base
+    from Systems.core.config.settings import DATABASE_URL
+except ImportError:
+    # Если импорт не удался, попробуем другой путь
+    import os
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.insert(0, project_root)
 
-from Systems.core.database.engine import Base, DATABASE_URL
-from Systems.core.database import models  # Импортируем все модели
+    from Systems.core.database.engine import Base
+    from Systems.core.config.settings import DATABASE_URL
 
-# this is the Alembic Config object
+# this is the Alembic Config object, which provides
+# access to the values within the .ini file in use.
 config = context.config
 
-# Устанавливаем URL базы данных из .env
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
-
 # Interpret the config file for Python logging.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+# This line sets up loggers basically.
+# fileConfig disabled to avoid configuration issues
+# if config.config_file_name is not None:
+#     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here for 'autogenerate' support
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
+
+# other values from the config, defined by the needs of env.py,
+# can be acquired:
+# my_important_var = config.get_main_option("my_important_var")
+
+# ... etc.
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -40,41 +70,47 @@ def run_migrations_offline() -> None:
 
     Calls to context.execute() here emit the given string to the
     script output.
+
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = config.get_main_option("sqlalchemy.url", DATABASE_URL)
     context.configure(
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        render_as_batch=True,  # Для SQLite
     )
 
     with context.begin_transaction():
         context.run_migrations()
 
 
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
+def do_run_migrations(connection: Connection) -> None:
+    context.configure(connection=connection, target_metadata=target_metadata)
 
-    In this scenario we need to create an Engine
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+async def run_async_migrations() -> None:
+    """In this scenario we need to create an Engine
     and associate a connection with the context.
+
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    from Systems.core.database.engine import async_engine
 
-    with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
-            render_as_batch=True,  # Для SQLite
-        )
+    # Используем уже настроенный async engine из SwiftDevBot
+    connectable = async_engine
 
-        with context.begin_transaction():
-            context.run_migrations()
+    async with connectable.connect() as connection:
+        await connection.run_sync(do_run_migrations)
+
+    # Не закрываем engine, так как он используется в приложении
+
+
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
+
+    asyncio.run(run_async_migrations())
 
 
 if context.is_offline_mode():

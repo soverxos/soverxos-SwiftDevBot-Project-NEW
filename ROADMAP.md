@@ -28,12 +28,12 @@
 - [x] WebPanel mock (порт 8000)
 - [x] Dockerfile + docker-compose.yml
 - [x] Сервисный мониторинг (`run_dev.sh status`)
-- [ ] Единое логирование `core/logging`
-- [ ] Менеджер конфигурации `core/config`
-- [ ] Универсальный EventBus (`memory`/`redis`)
-- [ ] Database engine (SQLAlchemy + Alembic)
-- [ ] Registry heartbeat (health-check микросервисов)
-- [ ] Security: базовая валидация лицензии
+- [x] Единое логирование `core/logging`
+- [x] Менеджер конфигурации `core/config`
+- [x] Универсальный EventBus (`memory`/`redis`)
+- [x] Database engine (SQLAlchemy + Alembic)
+- [x] Registry heartbeat (health-check микросервисов)
+- [x] Security: базовая валидация лицензии
 
 ---
 
