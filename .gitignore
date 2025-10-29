@@ -138,10 +138,9 @@ Modules/*/__pycache__/
 Modules/*/cache/
 Modules/*/temp/
 
-# --- Alembic Migrations (optional) ---
-alembic/versions/*.pyc
-alembic/versions/*.py~
+# --- Alembic Migrations ---
 alembic/versions/__pycache__/
+*.pyc
 
 # --- Deployment / Server ---
 deploy/*.key
